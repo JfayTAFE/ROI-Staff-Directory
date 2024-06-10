@@ -1,18 +1,15 @@
-// WelcomeScreen.js
-
 import React from 'react';
-import { View, StyleSheet, Image, Dimensions, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, Image, Dimensions, Pressable, Text } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
-const buttonWidth = width * 0.8; // 80% of the screen width
 const logoWidth = width * 0.9; // 90% of the screen width
-const logoHeight = (logoWidth * 300) / 600; // Maintain aspect ratio of the logo
+const logoHeight = logoWidth / 2; // Maintain aspect ratio of the logo
 
-const CustomButton = ({ title, onPress }) => {
+const StaffDirectoryButton = ({ title, onPress }) => {
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
+    <Pressable style={styles.button} onPress={onPress}>
       <Text style={styles.buttonText}>{title}</Text>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 
@@ -21,7 +18,7 @@ const WelcomeScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Image source={require('../assets/ROILogo.jpg')} style={styles.logo} />
       <View style={styles.buttonWrapper}>
-        <CustomButton
+        <StaffDirectoryButton
           title="Staff Directory"
           onPress={() => navigation.navigate('Directory')}
         />
@@ -41,7 +38,7 @@ const styles = StyleSheet.create({
     width: logoWidth,
     height: logoHeight,
     marginVertical: 20, // Vertical margin for spacing
-    marginTop: 40, // Adjust the top margin for spacing
+    marginTop: 40, // Top margin for spacing
   },
   buttonWrapper: { // Control position of button container
     flex: 1,
@@ -51,7 +48,7 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#ffffff', // Button background color
-    width: buttonWidth,
+    width: '80%',
     paddingVertical: 15, // Add space above/below text
     borderRadius: 5, // Rounds the corners of the button
     alignItems: 'center',
