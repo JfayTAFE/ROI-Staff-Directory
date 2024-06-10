@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Pressable, ScrollView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Pressable, ScrollView, } from 'react-native';
 
 const NavigationButton = ({ onPress }) => {
   return (
@@ -52,7 +52,7 @@ const StaffDirectory = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <NavigationButton onPress={() => {/* Navigation page */}} />
+        <NavigationButton onPress={() => navigation.navigate('Navigation')} />
         <StaffTitle />
       </View>
       <StaffList staffData={staffData} navigation={navigation} />
