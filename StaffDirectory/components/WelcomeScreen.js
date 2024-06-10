@@ -23,8 +23,8 @@ const WelcomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    justifyContent: 'flex-start', // Align items at the top
+    alignItems: 'center', // Center items horizontally
     backgroundColor: '#262626',
   },
   logo: {

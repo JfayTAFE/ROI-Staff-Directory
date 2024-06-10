@@ -4,6 +4,7 @@ import { TouchableOpacity, Text, StyleSheet, Dimensions } from 'react-native';
 const { width } = Dimensions.get('window');
 const buttonWidth = width * 0.7; // 70% of the screen width
 
+// Fades the button when pressed
 const CustomButton = ({ title, onPress }) => {
   return (
     <TouchableOpacity style={styles.button} onPress={onPress}>
