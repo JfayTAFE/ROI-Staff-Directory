@@ -20,22 +20,29 @@ const AddNewStaff = () => {
   const [dataLength, setDataLength] = useState(0);
 
   
-  // useEffect (React hook) to fetch the length of staff data array to find next id
-  useEffect(() => {
-    const fetchDataLength = async () => {
-      // Try-catch for error handling
-      try {
-        const response = await fetch('http://localhost:3000/data'); // HTTP request to server, awaits completion of fetch request
-        const data = await response.json(); // Parse json data, await completion
-        setDataLength(data.length);
-      }
-      catch (error) {
-        console.error('Error fetching data length:', error);
-      }
-    };
+  useFocusEffect( // Runs each time the page is in focus
+    React.useCallback(() => { 
+      let isActive = true; // State updates only happen if the component is still mounted (is active)
 
-    fetchDataLength();
-  }, []); // Empty array so useEffect only runs once
+      const fetchDataLength = async () => {
+        try {
+          const response = await fetch('http://localhost:3000/data'); // HTTP request to server, awaits completion of fetch request
+          const data = await response.json(); // Parse json data, await completion
+          if (isActive) {
+            setDataLength(data.length);
+          }
+        } catch (error) {
+          console.error('Error fetching data length', error); // Log error to the console
+        }
+      };
+
+      fetchDataLength();
+
+      return () => {
+        isActive = false; // Prevents state updates when component unmounts
+      };
+    }, []) // [] Tells React the callback function should be created only once
+  );
 
 
   // Handle the registration of a new staff member. Needs data in all fields
@@ -58,12 +65,11 @@ const AddNewStaff = () => {
       addressCountry,
     };
 
-
     try { // Run to find any errors
       const response = await fetch('http://localhost:3000/data', {
         method: 'POST', // Run POST method from backend
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json', // Tells server request is JSON format
         },
         body: JSON.stringify(newStaffMember), // Send new staff data to array
       });

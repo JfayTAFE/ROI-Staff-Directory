@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Pressable, Text } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { NavigationButton, HeaderTitle } from './HeaderComponents';
 import { AddStaffButton } from './FooterComponents';
@@ -25,12 +26,30 @@ const StaffList = ({ staffData, navigation }) => {
 const StaffDirectory = ({ navigation }) => {
   const [staffData, setStaffData] = useState([]);
 
-  useEffect(() => {
-    fetch('http://localhost:3000/data')
-      .then(response => response.json())
-      .then(data => setStaffData(data))
-      .catch(error => console.error(error));
-  }, []);
+  useFocusEffect( // Runs each time the page is in focus
+    React.useCallback(() => {
+      let isActive = true; // State updates only happen if the component is still mounted (is active)
+  
+      const fetchData = async () => {
+        try {
+          const response = await fetch('http://localhost:3000/data'); // HTTP request to server, awaits completion of fetch request
+          const data = await response.json(); // Parse json data, await completion
+          if (isActive) {
+            setStaffData(data);
+          }
+        }
+          catch (error) {
+            console.error('Error fetching data', error); // Log error to the console
+        }
+      };
+  
+      fetchData(); 
+  
+      return () => {
+        isActive = false; // Prevents state updates when component unmounts
+      };
+    }, []) // [] Tells React the callback function should be created only once
+  );
 
   return (
     <View style={styles.container}>
