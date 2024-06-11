@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 import { NavigationButton, HeaderTitle } from './HeaderComponents';
 import { StaffDirectoryButton, RegisterStaffButton } from './FooterComponents';
