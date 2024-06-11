@@ -1,19 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Pressable, ScrollView, } from 'react-native';
+import { View, StyleSheet, ScrollView, Pressable, Text } from 'react-native';
 
-const NavigationButton = ({ onPress }) => {
-  return (
-    <Pressable style={styles.navButton} onPress={onPress}>
-      <Text style={styles.navButtonText}>R O I</Text>
-    </Pressable>
-  );
-};
+import { NavigationButton, HeaderTitle } from './HeaderComponents';
+import { AddStaffButton } from './FooterComponents';
 
-const StaffTitle = () => {
-  return (
-    <Text style={styles.title}>Staff Directory</Text>
-  );
-};
 
 const StaffList = ({ staffData, navigation }) => {
   return (
@@ -31,13 +21,6 @@ const StaffList = ({ staffData, navigation }) => {
   );
 };
 
-const AddStaffButton = ({ onPress }) => {
-  return (
-    <Pressable style={styles.addButton} onPress={onPress}>
-      <Text style={styles.addButtonText}>Add New Staff</Text>
-    </Pressable>
-  );
-};
 
 const StaffDirectory = ({ navigation }) => {
   const [staffData, setStaffData] = useState([]);
@@ -53,7 +36,7 @@ const StaffDirectory = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <NavigationButton onPress={() => navigation.navigate('Navigation')} />
-        <StaffTitle />
+        <HeaderTitle title="Staff Directory" />
       </View>
       <StaffList staffData={staffData} navigation={navigation} />
       <AddStaffButton onPress={() => navigation.navigate('AddStaff')} />
@@ -61,38 +44,17 @@ const StaffDirectory = ({ navigation }) => {
   );
 };
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#262626',
-  },
-  navButton: {
-    backgroundColor: '#941a1d',
-    padding: 6,
-    alignItems: 'center',
-    borderColor: '#000',
-    borderWidth: 4,
-  },
-  navButtonText: {
-    color: '#fff',
-    fontSize: 22,
-    fontFamily: 'Trebuchet MS',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: '#595959',
-  },
-  title: {
-    textAlign: 'center',
-    color: '#fff',
-    fontSize: 22,
-    fontFamily: 'Trebuchet MS',
-    paddingVertical: 6,
-    borderColor: '#000',
-    borderWidth: 4,
-    flex: 1,
   },
   scrollView: {
     alignItems: 'center',
@@ -110,18 +72,6 @@ const styles = StyleSheet.create({
   staffButtonText: {
     color: '#000',
     fontSize: 16,
-    fontFamily: 'Trebuchet MS',
-  },
-  addButton: {
-    backgroundColor: '#941a1d',
-    padding: 6,
-    alignItems: 'center',
-    borderColor: '#000',
-    borderWidth: 4,
-  },
-  addButtonText: {
-    color: '#fff',
-    fontSize: 22,
     fontFamily: 'Trebuchet MS',
   },
 });

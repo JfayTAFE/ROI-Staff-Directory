@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, StyleSheet, Image, Dimensions, Pressable, Text } from 'react-native';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 const logoWidth = width * 0.9; // 90% of the screen width
 const logoHeight = logoWidth / 2; // Maintain aspect ratio of the logo
+
 
 const StaffDirectoryButton = ({ title, onPress }) => {
   return (
@@ -12,6 +13,7 @@ const StaffDirectoryButton = ({ title, onPress }) => {
     </Pressable>
   );
 };
+
 
 const WelcomeScreen = ({ navigation }) => {
   return (
@@ -26,6 +28,7 @@ const WelcomeScreen = ({ navigation }) => {
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

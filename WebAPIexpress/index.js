@@ -7,6 +7,12 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
+app.use(cors({
+    origin: '*',
+    methods: 'GET,PUT,POST',
+  }));
+  
+
 // Data storage for users in staff directory
 const storageData = [
     { id: 1, name: "John Smith", phone: "02 9988 2211", department: 1, addressStreet: "1 Code Lane", 

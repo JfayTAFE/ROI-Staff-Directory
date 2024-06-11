@@ -1,20 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, StyleSheet, Pressable, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const NavigationButton = ({ onPress }) => {
-  return (
-    <Pressable style={styles.navButton} onPress={onPress}>
-      <Text style={styles.navButtonText}>R O I</Text>
-    </Pressable>
-  );
-};
+import { NavigationButton, HeaderTitle } from './HeaderComponents';
 
-const HeaderTitle = () => {
-  return (
-    <Text style={styles.headerText}>Navigation</Text>
-  );
-};
 
 const NavigationItem = ({ title, onPress }) => {
   return (
@@ -24,14 +13,15 @@ const NavigationItem = ({ title, onPress }) => {
   );
 };
 
+
 const NavigationPage = () => {
   const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <NavigationButton onPress={() => navigation.navigate('Navigation')} />
-        <HeaderTitle />
+        <NavigationButton onPress={() => navigation.navigate('Welcome')} />
+        <HeaderTitle title="Navigation" />
       </View>
       <View style={styles.buttonWrapper}>
         <NavigationItem title="Welcome / Login" onPress={() => navigation.navigate('Welcome')} />
@@ -42,59 +32,38 @@ const NavigationPage = () => {
   );
 };
 
+
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#262626',
-    },
-    header: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      backgroundColor: '#595959',
-    },
-    navButton: {
-      backgroundColor: '#941a1d',
-      padding: 6,
-      alignItems: 'center',
-      borderColor: '#000',
-      borderWidth: 4,
-    },
-    navButtonText: {
-      color: '#fff',
-      fontSize: 22,
-      fontFamily: 'Trebuchet MS',
-    },
-    headerText: {
-      color: '#fff',
-      fontSize: 22,
-      fontFamily: 'Trebuchet MS',
-      flex: 1,
-      textAlign: 'center',
-      borderColor: '#000',
-      borderWidth: 4,
-      paddingVertical: 6,
-    },
-    buttonWrapper: {
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-      marginTop: 20,
-    },
-    button: {
-      backgroundColor: '#808080',
-      width: '80%',
-      paddingVertical: 15,
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginVertical: 5,
-      borderColor: '#000',
-      borderWidth: 4,
-    },
-    buttonText: {
-      color: '#fff',
-      fontSize: 18,
-      fontFamily: 'Trebuchet MS',
-    },
-  });
-  
-  export default NavigationPage;
+  container: {
+    flex: 1,
+    backgroundColor: '#262626',
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#595959',
+  },
+  buttonWrapper: {
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  button: {
+    backgroundColor: '#808080',
+    width: '80%',
+    paddingVertical: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 5,
+    borderColor: '#000',
+    borderWidth: 4,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontFamily: 'Trebuchet MS',
+  },
+});
+
+export default NavigationPage;
