@@ -18,7 +18,9 @@ const StaffList = ({ staffData, navigation, page, entriesPerPage }) => {
         <Pressable
           key={staff.id}
           style={styles.staffButton}
-          onPress={() => navigation.navigate('StaffDetails', { staffId: staff.id })}
+          onPress={() => {
+            navigation.navigate('UpdateStaff', { staffId: staff.id });
+          }}
         >
           <Text style={styles.staffButtonText}>{staff.name} details</Text>
         </Pressable>
@@ -69,13 +71,15 @@ const StaffDirectory = ({ navigation }) => {
     }
   };
 
+  const totalPages = Math.ceil(staffData.length / entriesPerPage);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <NavigationButton onPress={() => navigation.navigate('Navigation')} />
         <HeaderTitle title="Staff Directory" />
       </View>
-      <Text style={styles.pageNumber}>Page {page + 1}</Text>
+      <Text style={styles.pageNumber}>Page {page + 1} / {totalPages}</Text>
       <View style={styles.content}>
         <StaffList staffData={staffData} navigation={navigation} page={page} entriesPerPage={entriesPerPage} />
       </View>
@@ -132,9 +136,9 @@ const styles = StyleSheet.create({
     fontFamily: 'Trebuchet MS',
   },
   pageNumber: {
-    fontFamily: 'Trebuchet MS',
     color: '#fff',
-    fontSize: 18,
+    fontSize: 20,
+    fontFamily: 'Trebuchet MS',
     textAlign: 'center',
     marginVertical: 10,
   },

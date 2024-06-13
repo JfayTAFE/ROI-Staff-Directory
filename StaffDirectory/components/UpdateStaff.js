@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
-
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { NavigationButton, HeaderTitle } from './HeaderComponents';
-import { StaffDirectoryButton, RegisterStaffButton } from './FooterComponents';
+import { StaffDirectoryButton, UpdateStaffButton } from './FooterComponents';
 import StaffDataFields from './StaffDataFields';
 
 
-const AddNewStaff = () => {
+const UpdateStaff = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+  const { staffId } = route.params;
+
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [department, setDepartment] = useState('');
@@ -18,43 +20,43 @@ const AddNewStaff = () => {
   const [addressZip, setAddressZip] = useState('');
   const [addressCountry, setAddressCountry] = useState('');
   const [message, setMessage] = useState('');
-  const [dataLength, setDataLength] = useState(0);
- 
-  useFocusEffect( // Runs each time the page is in focus
-    React.useCallback(() => { 
-      let isActive = true; // State updates only happen if the component is still mounted (is active)
 
-      const fetchDataLength = async () => {
-        try {
-          const response = await fetch('http://localhost:3000/data'); // HTTP request to server, awaits completion of fetch request
-          const data = await response.json(); // Parse json data, await completion
-          if (isActive) {
-            setDataLength(data.length);
-          }
-        } catch (error) {
-          console.error('Error fetching data length', error); // Log error to the console
+  useEffect(() => {
+    console.log('Staff ID:', staffId); // Debugging statement
+    const fetchStaffData = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/data/${staffId}`);
+        const data = await response.json();
+        console.log('Fetched data:', data); // Debugging statement
+        if (data) {
+          setName(data.name || '');
+          setPhone(data.phone || '');
+          setDepartment(data.department || '');
+          setAddressStreet(data.addressStreet || '');
+          setAddressCity(data.addressCity || '');
+          setAddressState(data.addressState || '');
+          setAddressZip(data.addressZip || '');
+          setAddressCountry(data.addressCountry || '');
+        } else {
+          setMessage('No data found for this staff member.');
         }
-      };
+      } catch (error) {
+        console.error('Error fetching staff data', error);
+        setMessage('Error fetching staff data.');
+      }
+    };
 
-      fetchDataLength();
+    fetchStaffData();
+  }, [staffId]);
 
-      return () => {
-        isActive = false; // Prevents state updates when component unmounts
-      };
-    }, []) // [] Tells React the callback function should be created only once
-  );
-
-
-  // Handle the registration of a new staff member. Needs data in all fields
-  const handleRegister = async () => {
+  const handleUpdate = async () => {
     if (!name || !phone || !department || !addressStreet || !addressCity || !addressState || !addressZip || !addressCountry) {
-      setMessage('All fields are required.'); // Error message if any field is empty
+      setMessage('All fields are required.');
       return;
     }
 
-    // Details for the new staff member
-    const newStaffMember = {
-      id: dataLength + 1, // Next id number
+    const updatedStaffMember = {
+      id: staffId,
       name,
       phone,
       department,
@@ -65,35 +67,23 @@ const AddNewStaff = () => {
       addressCountry,
     };
 
-    try { // Run to find any errors
-      const response = await fetch('http://localhost:3000/data', {
-        method: 'POST', // Run POST method from backend
+    try {
+      const response = await fetch(`http://localhost:3000/data/${staffId}`, {
+        method: 'PUT',
         headers: {
-          'Content-Type': 'application/json', // Tells server request is JSON format
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newStaffMember), // Send new staff data to array
+        body: JSON.stringify(updatedStaffMember),
       });
 
-      if (response.status === 201) {
-        setMessage('New staff member registered successfully!'); // Success message
-        // Reset all input fields after
-        setName('');
-        setPhone('');
-        setDepartment('');
-        setAddressStreet('');
-        setAddressCity('');
-        setAddressState('');
-        setAddressZip('');
-        setAddressCountry('');
-        setDataLength(dataLength + 1); // Update the data length for the next entry
+      if (response.status === 200) {
+        setMessage('Staff member updated successfully!');
+      } else {
+        setMessage('Failed to update staff member.');
       }
-      else {
-        setMessage('Failed to register new staff member.'); // Fail message
-      }
-    }
-    catch (error) { 
-      setMessage('Error registering new staff member.'); // Error message
-      console.error(error); // Log error to console
+    } catch (error) {
+      setMessage('Error updating staff member.');
+      console.error(error);
     }
   };
 
@@ -101,9 +91,9 @@ const AddNewStaff = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <NavigationButton onPress={() => navigation.navigate('Navigation')} />
-        <HeaderTitle title="Add New Staff Member" />
+        <HeaderTitle title="Update Staff Member" />
       </View>
-      <Text style={styles.label}>New Staff Member Details</Text>
+      <Text style={styles.label}>Update Staff Member Details</Text>
       <StaffDataFields
         name={name}
         setName={setName}
@@ -125,7 +115,7 @@ const AddNewStaff = () => {
       {message ? <Text style={message.includes('successfully') ? styles.successMessage : styles.errorMessage}>{message}</Text> : null}
       <View style={styles.footer}>
         <StaffDirectoryButton onPress={() => navigation.navigate('Directory')} />
-        <RegisterStaffButton onPress={handleRegister} />
+        <UpdateStaffButton onPress={handleUpdate} />
       </View>
     </View>
   );
@@ -168,4 +158,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddNewStaff;
+export default UpdateStaff;

@@ -40,7 +40,7 @@ app.get('/data', (request, response) => {
 // GET method to fetch a single staff profile by id
 // Postman test - passed, diplayed data for ID user from storageData data
 app.get('/data/:id', (request, response) => {
-    const id = request.params.id;
+    const id = parseInt(request.params.id, 10);
     const profile = storageData.find(item => item.id === id);
 
     if (profile) {
@@ -62,7 +62,7 @@ app.post('/data', (request, response) => {
 // PUT method to update an existing staff profile by id
 // Postman test - passed, updated user data with new data in the same format as storageData
 app.put('/data/:id', (request, response) => {
-    const id = request.params.id;
+    const id = parseInt(request.params.id, 10);
     const updatedData = request.body;
     let itemIndex = storageData.findIndex(item => item.id === id);
 

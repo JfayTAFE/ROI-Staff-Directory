@@ -1,10 +1,10 @@
 import React from 'react';
-import { Pressable, Text, StyleSheet } from 'react-native';
+import { Pressable, Image, Text, StyleSheet } from 'react-native';
 
 export const NavigationButton = ({ onPress }) => {
   return (
     <Pressable style={styles.navButton} onPress={onPress}>
-      <Text style={styles.navButtonText}>R O I</Text>
+      <Image source={require('../assets/ROILogo.jpg')} style={styles.navButtonImage} />
     </Pressable>
   );
 };
@@ -17,16 +17,14 @@ export const HeaderTitle = ({ title }) => {
 
 const styles = StyleSheet.create({
   navButton: {
-    backgroundColor: '#941a1d',
-    padding: 6,
     alignItems: 'center',
+    borderWidth: 1,
     borderColor: '#000',
-    borderWidth: 4,
   },
-  navButtonText: {
-    color: '#fff',
-    fontSize: 22,
-    fontFamily: 'Trebuchet MS',
+  navButtonImage: {
+    width: 86, // Adjust width as needed
+    height: 44, // Ensure height maintains 2:1 aspect ratio with width
+    resizeMode: 'contain', // This ensures the image scales correctly
   },
   headerText: {
     color: '#fff',
@@ -45,3 +43,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#595959',
   },
 });
+
