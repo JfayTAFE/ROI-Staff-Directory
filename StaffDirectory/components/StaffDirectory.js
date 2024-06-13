@@ -1,15 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView, Pressable, Text } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, Pressable, Text } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { NavigationButton, HeaderTitle } from './HeaderComponents';
-import { AddStaffButton } from './FooterComponents';
+import { AddStaffButton, PageDownButton, PageUpButton } from './FooterComponents';
 
 
-const StaffList = ({ staffData, navigation }) => {
+// Component to display paged staff list
+const StaffList = ({ staffData, navigation, page, entriesPerPage }) => {
+  const startIndex = page * entriesPerPage;
+  const endIndex = startIndex + entriesPerPage;
+  const pagedData = staffData.slice(startIndex, endIndex);
+
   return (
-    <ScrollView contentContainerStyle={styles.scrollView}>
-      {staffData.map((staff) => (
+    <View style={styles.listContainer}>
+      {pagedData.map((staff) => (
         <Pressable
           key={staff.id}
           style={styles.staffButton}
@@ -18,13 +23,14 @@ const StaffList = ({ staffData, navigation }) => {
           <Text style={styles.staffButtonText}>{staff.name} details</Text>
         </Pressable>
       ))}
-    </ScrollView>
+    </View>
   );
 };
 
-
 const StaffDirectory = ({ navigation }) => {
   const [staffData, setStaffData] = useState([]);
+  const [page, setPage] = useState(0);
+  const entriesPerPage = 8;
 
   useFocusEffect( // Runs each time the page is in focus
     React.useCallback(() => {
@@ -51,18 +57,36 @@ const StaffDirectory = ({ navigation }) => {
     }, []) // [] Tells React the callback function should be created only once
   );
 
+  const handleNextPage = () => {
+    if ((page + 1) * entriesPerPage < staffData.length) {
+      setPage(page + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (page > 0) {
+      setPage(page - 1);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <NavigationButton onPress={() => navigation.navigate('Navigation')} />
         <HeaderTitle title="Staff Directory" />
       </View>
-      <StaffList staffData={staffData} navigation={navigation} />
-      <AddStaffButton onPress={() => navigation.navigate('AddStaff')} />
+      <Text style={styles.pageNumber}>Page {page + 1}</Text>
+      <View style={styles.content}>
+        <StaffList staffData={staffData} navigation={navigation} page={page} entriesPerPage={entriesPerPage} />
+      </View>
+      <View style={styles.footer}>
+        <PageUpButton onPress={handlePreviousPage} />
+        <AddStaffButton onPress={() => navigation.navigate('AddStaff')} />
+        <PageDownButton onPress={handleNextPage} />
+      </View>
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -75,12 +99,26 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: '#595959',
   },
-  scrollView: {
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#595959',
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  listContainer: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   staffButton: {
     backgroundColor: '#fff',
-    padding: 15,
+    padding: 10,
     marginVertical: 10,
     width: '80%',
     borderRadius: 5,
@@ -92,6 +130,13 @@ const styles = StyleSheet.create({
     color: '#000',
     fontSize: 16,
     fontFamily: 'Trebuchet MS',
+  },
+  pageNumber: {
+    fontFamily: 'Trebuchet MS',
+    color: '#fff',
+    fontSize: 18,
+    textAlign: 'center',
+    marginVertical: 10,
   },
 });
 
