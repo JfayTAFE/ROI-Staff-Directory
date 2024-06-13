@@ -22,12 +22,10 @@ const UpdateStaff = () => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    console.log('Staff ID:', staffId); // Debugging statement
     const fetchStaffData = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/data/${staffId}`);
+        const response = await fetch(`http://10.0.2.2:3000/data/${staffId}`);
         const data = await response.json();
-        console.log('Fetched data:', data); // Debugging statement
         if (data) {
           setName(data.name || '');
           setPhone(data.phone || '');
@@ -45,16 +43,16 @@ const UpdateStaff = () => {
         setMessage('Error fetching staff data.');
       }
     };
-
+  
     fetchStaffData();
   }, [staffId]);
-
+  
   const handleUpdate = async () => {
     if (!name || !phone || !department || !addressStreet || !addressCity || !addressState || !addressZip || !addressCountry) {
       setMessage('All fields are required.');
       return;
     }
-
+  
     const updatedStaffMember = {
       id: staffId,
       name,
@@ -66,16 +64,16 @@ const UpdateStaff = () => {
       addressZip,
       addressCountry,
     };
-
+  
     try {
-      const response = await fetch(`http://localhost:3000/data/${staffId}`, {
+      const response = await fetch(`http://10.0.2.2:3000/data/${staffId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(updatedStaffMember),
       });
-
+  
       if (response.status === 200) {
         setMessage('Staff member updated successfully!');
       } else {
@@ -86,6 +84,8 @@ const UpdateStaff = () => {
       console.error(error);
     }
   };
+  
+  
 
   return (
     <View style={styles.container}>

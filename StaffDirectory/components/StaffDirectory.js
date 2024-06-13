@@ -34,30 +34,28 @@ const StaffDirectory = ({ navigation }) => {
   const [page, setPage] = useState(0);
   const entriesPerPage = 8;
 
-  useFocusEffect( // Runs each time the page is in focus
+  useFocusEffect(
     React.useCallback(() => {
-      let isActive = true; // State updates only happen if the component is still mounted (is active)
-  
+      let isActive = true;
       const fetchData = async () => {
         try {
-          const response = await fetch('http://localhost:3000/data'); // HTTP request to server, awaits completion of fetch request
-          const data = await response.json(); // Parse json data, await completion
+          const response = await fetch('http://10.0.2.2:3000/data');
+          const data = await response.json();
           if (isActive) {
             setStaffData(data);
           }
-        }
-          catch (error) {
-            console.error('Error fetching data', error); // Log error to the console
+        } catch (error) {
+          console.error('Error fetching data', error);
         }
       };
   
-      fetchData(); 
-  
+      fetchData();
       return () => {
-        isActive = false; // Prevents state updates when component unmounts
+        isActive = false;
       };
-    }, []) // [] Tells React the callback function should be created only once
+    }, [])
   );
+  
 
   const handleNextPage = () => {
     if ((page + 1) * entriesPerPage < staffData.length) {

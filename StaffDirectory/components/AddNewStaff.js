@@ -20,41 +20,36 @@ const AddNewStaff = () => {
   const [message, setMessage] = useState('');
   const [dataLength, setDataLength] = useState(0);
  
-  useFocusEffect( // Runs each time the page is in focus
-    React.useCallback(() => { 
-      let isActive = true; // State updates only happen if the component is still mounted (is active)
-
+  useFocusEffect(
+    React.useCallback(() => {
+      let isActive = true;
       const fetchDataLength = async () => {
         try {
-          const response = await fetch('http://localhost:3000/data'); // HTTP request to server, awaits completion of fetch request
-          const data = await response.json(); // Parse json data, await completion
+          const response = await fetch('http://10.0.2.2:3000/data');
+          const data = await response.json();
           if (isActive) {
             setDataLength(data.length);
           }
         } catch (error) {
-          console.error('Error fetching data length', error); // Log error to the console
+          console.error('Error fetching data length', error);
         }
       };
-
+  
       fetchDataLength();
-
       return () => {
-        isActive = false; // Prevents state updates when component unmounts
+        isActive = false;
       };
-    }, []) // [] Tells React the callback function should be created only once
+    }, [])
   );
-
-
-  // Handle the registration of a new staff member. Needs data in all fields
+  
   const handleRegister = async () => {
     if (!name || !phone || !department || !addressStreet || !addressCity || !addressState || !addressZip || !addressCountry) {
-      setMessage('All fields are required.'); // Error message if any field is empty
+      setMessage('All fields are required.');
       return;
     }
-
-    // Details for the new staff member
+  
     const newStaffMember = {
-      id: dataLength + 1, // Next id number
+      id: dataLength + 1,
       name,
       phone,
       department,
@@ -64,19 +59,18 @@ const AddNewStaff = () => {
       addressZip,
       addressCountry,
     };
-
-    try { // Run to find any errors
-      const response = await fetch('http://localhost:3000/data', {
-        method: 'POST', // Run POST method from backend
+  
+    try {
+      const response = await fetch('http://10.0.2.2:3000/data', {
+        method: 'POST',
         headers: {
-          'Content-Type': 'application/json', // Tells server request is JSON format
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newStaffMember), // Send new staff data to array
+        body: JSON.stringify(newStaffMember),
       });
-
+  
       if (response.status === 201) {
-        setMessage('New staff member registered successfully!'); // Success message
-        // Reset all input fields after
+        setMessage('New staff member registered successfully!');
         setName('');
         setPhone('');
         setDepartment('');
@@ -85,17 +79,17 @@ const AddNewStaff = () => {
         setAddressState('');
         setAddressZip('');
         setAddressCountry('');
-        setDataLength(dataLength + 1); // Update the data length for the next entry
+        setDataLength(dataLength + 1);
+      } else {
+        setMessage('Failed to register new staff member.');
       }
-      else {
-        setMessage('Failed to register new staff member.'); // Fail message
-      }
-    }
-    catch (error) { 
-      setMessage('Error registering new staff member.'); // Error message
-      console.error(error); // Log error to console
+    } catch (error) {
+      setMessage('Error registering new staff member.');
+      console.error(error);
     }
   };
+  
+  
 
   return (
     <View style={styles.container}>

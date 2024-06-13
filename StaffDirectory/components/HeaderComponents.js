@@ -22,9 +22,9 @@ const styles = StyleSheet.create({
     borderColor: '#000',
   },
   navButtonImage: {
-    width: 86, // Adjust width as needed
+    width: 86,
     height: 44, // Ensure height maintains 2:1 aspect ratio with width
-    resizeMode: 'contain', // This ensures the image scales correctly
+    resizeMode: 'contain', // Image scales correctly
   },
   headerText: {
     color: '#fff',
