@@ -1,10 +1,10 @@
+// UpdateStaff.js
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { NavigationButton, HeaderTitle } from './HeaderComponents';
 import { StaffDirectoryButton, UpdateStaffButton } from './FooterComponents';
 import StaffDataFields from './StaffDataFields';
-
 
 const UpdateStaff = () => {
   const navigation = useNavigation();
@@ -43,16 +43,16 @@ const UpdateStaff = () => {
         setMessage('Error fetching staff data.');
       }
     };
-  
+
     fetchStaffData();
   }, [staffId]);
-  
+
   const handleUpdate = async () => {
     if (!name || !phone || !department || !addressStreet || !addressCity || !addressState || !addressZip || !addressCountry) {
       setMessage('All fields are required.');
       return;
     }
-  
+
     const updatedStaffMember = {
       id: staffId,
       name,
@@ -64,7 +64,7 @@ const UpdateStaff = () => {
       addressZip,
       addressCountry,
     };
-  
+
     try {
       const response = await fetch(`http://10.0.2.2:3000/data/${staffId}`, {
         method: 'PUT',
@@ -73,7 +73,7 @@ const UpdateStaff = () => {
         },
         body: JSON.stringify(updatedStaffMember),
       });
-  
+
       if (response.status === 200) {
         setMessage('Staff member updated successfully!');
       } else {
@@ -84,40 +84,40 @@ const UpdateStaff = () => {
       console.error(error);
     }
   };
-  
-  
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <NavigationButton onPress={() => navigation.navigate('Navigation')} />
-        <HeaderTitle title="Update Staff Member" />
-      </View>
-      <Text style={styles.label}>Update Staff Member Details</Text>
-      <StaffDataFields
-        name={name}
-        setName={setName}
-        phone={phone}
-        setPhone={setPhone}
-        department={department}
-        setDepartment={setDepartment}
-        addressStreet={addressStreet}
-        setAddressStreet={setAddressStreet}
-        addressCity={addressCity}
-        setAddressCity={setAddressCity}
-        addressState={addressState}
-        setAddressState={setAddressState}
-        addressZip={addressZip}
-        setAddressZip={setAddressZip}
-        addressCountry={addressCountry}
-        setAddressCountry={setAddressCountry}
-      />
-      {message ? <Text style={message.includes('successfully') ? styles.successMessage : styles.errorMessage}>{message}</Text> : null}
-      <View style={styles.footer}>
-        <StaffDirectoryButton onPress={() => navigation.navigate('Directory')} />
-        <UpdateStaffButton onPress={handleUpdate} />
-      </View>
-    </View>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.header}>
+          <NavigationButton onPress={() => navigation.navigate('Navigation')} />
+          <HeaderTitle title="Update Staff Member" />
+        </View>
+        <Text style={styles.label}>Update Staff Member Details</Text>
+        <StaffDataFields
+          name={name}
+          setName={setName}
+          phone={phone}
+          setPhone={setPhone}
+          department={department}
+          setDepartment={setDepartment}
+          addressStreet={addressStreet}
+          setAddressStreet={setAddressStreet}
+          addressCity={addressCity}
+          setAddressCity={setAddressCity}
+          addressState={addressState}
+          setAddressState={setAddressState}
+          addressZip={addressZip}
+          setAddressZip={setAddressZip}
+          addressCountry={addressCountry}
+          setAddressCountry={setAddressCountry}
+        />
+        {message ? <Text style={message.includes('successfully') ? styles.successMessage : styles.errorMessage}>{message}</Text> : null}
+        <View style={styles.footer}>
+          <StaffDirectoryButton onPress={() => navigation.navigate('Directory')} />
+          <UpdateStaffButton onPress={handleUpdate} />
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -125,6 +125,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#262626',
+  },
+  scrollContainer: {
+    flexGrow: 1,
   },
   header: {
     flexDirection: 'row',

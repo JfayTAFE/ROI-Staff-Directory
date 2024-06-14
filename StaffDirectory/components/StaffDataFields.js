@@ -43,29 +43,25 @@ const StaffDataFields = ({ name, setName, phone, setPhone, department, setDepart
 const styles = StyleSheet.create({
   form: {
     flex: 1,
-    justifyContent: 'center',
+    padding: 20,
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     marginBottom: 10,
   },
   inputLabel: {
     color: '#fff',
     fontSize: 16,
     fontFamily: 'Trebuchet MS',
-    width: '35%',
-    textAlign: 'left',
-    marginLeft: '10%',
+    flex: 1,
   },
   input: {
     backgroundColor: '#fff',
     padding: 10,
     borderRadius: 5,
     fontSize: 16,
-    width: '70%',
-    marginRight: '10%',
+    flex: 2,
   },
 });
 

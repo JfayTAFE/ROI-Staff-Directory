@@ -28,7 +28,7 @@ export const RegisterStaffButton = ({ onPress }) => {
 export const PageDownButton = ({ onPress }) => {
   return (
     <Pressable style={styles.pageUpDownButton} onPress={onPress}>
-      <Text style={styles.shareTitleButtonText}>↓</Text>
+      <Text style={styles.shareTitleButtonText}>Pg ↓</Text>
     </Pressable>
   );
 };
@@ -36,7 +36,7 @@ export const PageDownButton = ({ onPress }) => {
 export const PageUpButton = ({ onPress }) => {
   return (
     <Pressable style={styles.pageUpDownButton} onPress={onPress}>
-      <Text style={styles.shareTitleButtonText}>↑</Text>
+      <Text style={styles.shareTitleButtonText}>Pg ↑</Text>
     </Pressable>
   );
 };

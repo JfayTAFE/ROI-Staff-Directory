@@ -1,11 +1,10 @@
+// AddNewStaff.js
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
-
 import { NavigationButton, HeaderTitle } from './HeaderComponents';
 import { StaffDirectoryButton, RegisterStaffButton } from './FooterComponents';
 import StaffDataFields from './StaffDataFields';
-
 
 const AddNewStaff = () => {
   const navigation = useNavigation();
@@ -19,7 +18,7 @@ const AddNewStaff = () => {
   const [addressCountry, setAddressCountry] = useState('');
   const [message, setMessage] = useState('');
   const [dataLength, setDataLength] = useState(0);
- 
+
   useFocusEffect(
     React.useCallback(() => {
       let isActive = true;
@@ -34,20 +33,20 @@ const AddNewStaff = () => {
           console.error('Error fetching data length', error);
         }
       };
-  
+
       fetchDataLength();
       return () => {
         isActive = false;
       };
     }, [])
   );
-  
+
   const handleRegister = async () => {
     if (!name || !phone || !department || !addressStreet || !addressCity || !addressState || !addressZip || !addressCountry) {
       setMessage('All fields are required.');
       return;
     }
-  
+
     const newStaffMember = {
       id: dataLength + 1,
       name,
@@ -59,7 +58,7 @@ const AddNewStaff = () => {
       addressZip,
       addressCountry,
     };
-  
+
     try {
       const response = await fetch('http://10.0.2.2:3000/data', {
         method: 'POST',
@@ -68,7 +67,7 @@ const AddNewStaff = () => {
         },
         body: JSON.stringify(newStaffMember),
       });
-  
+
       if (response.status === 201) {
         setMessage('New staff member registered successfully!');
         setName('');
@@ -88,40 +87,40 @@ const AddNewStaff = () => {
       console.error(error);
     }
   };
-  
-  
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <NavigationButton onPress={() => navigation.navigate('Navigation')} />
-        <HeaderTitle title="Add New Staff Member" />
-      </View>
-      <Text style={styles.label}>New Staff Member Details</Text>
-      <StaffDataFields
-        name={name}
-        setName={setName}
-        phone={phone}
-        setPhone={setPhone}
-        department={department}
-        setDepartment={setDepartment}
-        addressStreet={addressStreet}
-        setAddressStreet={setAddressStreet}
-        addressCity={addressCity}
-        setAddressCity={setAddressCity}
-        addressState={addressState}
-        setAddressState={setAddressState}
-        addressZip={addressZip}
-        setAddressZip={setAddressZip}
-        addressCountry={addressCountry}
-        setAddressCountry={setAddressCountry}
-      />
-      {message ? <Text style={message.includes('successfully') ? styles.successMessage : styles.errorMessage}>{message}</Text> : null}
-      <View style={styles.footer}>
-        <StaffDirectoryButton onPress={() => navigation.navigate('Directory')} />
-        <RegisterStaffButton onPress={handleRegister} />
-      </View>
-    </View>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.header}>
+          <NavigationButton onPress={() => navigation.navigate('Navigation')} />
+          <HeaderTitle title="Add New Staff Member" />
+        </View>
+        <Text style={styles.label}>New Staff Member Details</Text>
+        <StaffDataFields
+          name={name}
+          setName={setName}
+          phone={phone}
+          setPhone={setPhone}
+          department={department}
+          setDepartment={setDepartment}
+          addressStreet={addressStreet}
+          setAddressStreet={setAddressStreet}
+          addressCity={addressCity}
+          setAddressCity={setAddressCity}
+          addressState={addressState}
+          setAddressState={setAddressState}
+          addressZip={addressZip}
+          setAddressZip={setAddressZip}
+          addressCountry={addressCountry}
+          setAddressCountry={setAddressCountry}
+        />
+        {message ? <Text style={message.includes('successfully') ? styles.successMessage : styles.errorMessage}>{message}</Text> : null}
+        <View style={styles.footer}>
+          <StaffDirectoryButton onPress={() => navigation.navigate('Directory')} />
+          <RegisterStaffButton onPress={handleRegister} />
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -129,6 +128,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#262626',
+  },
+  scrollContainer: {
+    flexGrow: 1,
   },
   header: {
     flexDirection: 'row',
