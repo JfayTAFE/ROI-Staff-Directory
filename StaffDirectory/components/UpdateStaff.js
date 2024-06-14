@@ -29,7 +29,7 @@ const UpdateStaff = () => {
         if (data) {
           setName(data.name || '');
           setPhone(data.phone || '');
-          setDepartment(data.department || '');
+          setDepartment(data.department ? data.department.toString() : '');
           setAddressStreet(data.addressStreet || '');
           setAddressCity(data.addressCity || '');
           setAddressState(data.addressState || '');
@@ -57,7 +57,7 @@ const UpdateStaff = () => {
       id: staffId,
       name,
       phone,
-      department,
+      department: parseInt(department, 10),
       addressStreet,
       addressCity,
       addressState,

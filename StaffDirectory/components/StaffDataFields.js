@@ -1,7 +1,24 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 
-const StaffDataFields = ({ name, setName, phone, setPhone, department, setDepartment, addressStreet, setAddressStreet, addressCity, setAddressCity, addressState, setAddressState, addressZip, setAddressZip, addressCountry, setAddressCountry }) => {
+const StaffDataFields = ({
+  name,
+  setName,
+  phone,
+  setPhone,
+  department,
+  setDepartment,
+  addressStreet,
+  setAddressStreet,
+  addressCity,
+  setAddressCity,
+  addressState,
+  setAddressState,
+  addressZip,
+  setAddressZip,
+  addressCountry,
+  setAddressCountry
+}) => {
   return (
     <View style={styles.form}>
       <View style={styles.inputContainer}>
@@ -43,6 +60,7 @@ const StaffDataFields = ({ name, setName, phone, setPhone, department, setDepart
 const styles = StyleSheet.create({
   form: {
     flex: 1,
+    justifyContent: 'center',
     padding: 20,
   },
   inputContainer: {

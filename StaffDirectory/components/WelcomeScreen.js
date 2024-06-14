@@ -3,8 +3,6 @@ import { View, StyleSheet, Image, Dimensions, Pressable, Text } from 'react-nati
 
 const { width } = Dimensions.get('window');
 const logoWidth = width * 0.9; // 90% of the screen width
-const logoHeight = logoWidth / 2; // Maintain aspect ratio of the logo
-
 
 const StaffDirectoryButton = ({ title, onPress }) => {
   return (
@@ -14,11 +12,10 @@ const StaffDirectoryButton = ({ title, onPress }) => {
   );
 };
 
-
 const WelcomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Image source={require('../assets/ROILogo.jpg')} style={styles.logo} />
+      <Image source={require('../assets/ROILogo.jpg')} style={styles.logo} resizeMode="contain" />
       <View style={styles.buttonWrapper}>
         <StaffDirectoryButton
           title="Staff Directory"
@@ -29,7 +26,6 @@ const WelcomeScreen = ({ navigation }) => {
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -39,11 +35,11 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: logoWidth,
-    height: logoHeight,
+    height: logoWidth / 2, // Maintain aspect ratio
     marginVertical: 20, // Vertical margin for spacing
     marginTop: 40, // Top margin for spacing
   },
-  buttonWrapper: { // Control position of button container
+  buttonWrapper: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
