@@ -4,7 +4,7 @@ import { Pressable, Image, Text, StyleSheet } from 'react-native';
 export const NavigationButton = ({ onPress }) => {
   return (
     <Pressable style={styles.navButton} onPress={onPress}>
-      <Image source={require('../assets/ROILogo.jpg')} style={styles.navButtonImage} />
+      <Image source={require('../assets/ROILogo2.jpg')} style={styles.navButtonImage} />
     </Pressable>
   );
 };
@@ -18,12 +18,12 @@ export const HeaderTitle = ({ title }) => {
 const styles = StyleSheet.create({
   navButton: {
     alignItems: 'center',
-    borderWidth: 1,
+    borderWidth: 4,
     borderColor: '#000',
   },
   navButtonImage: {
-    width: 86,
-    height: 44, // Ensure height maintains 2:1 aspect ratio with width
+    width: 79,
+    height: 38, // Ensure height maintains 2:1 aspect ratio with width
     resizeMode: 'contain', // Image scales correctly
   },
   headerText: {
