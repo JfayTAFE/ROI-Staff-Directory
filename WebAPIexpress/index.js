@@ -75,6 +75,22 @@ app.put('/data/:id', (request, response) => {
     }
 });
 
+// Added via fork
+// DELETE method to remove a staff profile by id
+app.delete('/data/:id', (request, response) => {
+    const id = parseInt(request.params.id, 10);
+    const itemIndex = storageData.findIndex(item => item.id === id);
+
+    if (itemIndex !== -1) {
+        storageData.splice(itemIndex, 1);
+        response.status(204).send(); // No Content
+    } 
+    else {
+        response.status(404).json({ message: 'Item not found' });
+    }
+});
+
+
 // Message to show server is running
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
