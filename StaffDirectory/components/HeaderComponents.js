@@ -23,8 +23,7 @@ const styles = StyleSheet.create({
   },
   navButtonImage: {
     width: 79,
-    height: 38, // Ensure height maintains 2:1 aspect ratio with width
-    resizeMode: 'contain', // Image scales correctly
+    height: 41,
   },
   headerText: {
     color: '#fff',
