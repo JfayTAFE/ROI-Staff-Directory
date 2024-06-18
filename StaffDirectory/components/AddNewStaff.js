@@ -1,10 +1,10 @@
-// AddNewStaff.js
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, ScrollView, Platform, Keyboard } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { NavigationButton, HeaderTitle } from './HeaderComponents';
 import { StaffDirectoryButton, RegisterStaffButton } from './FooterComponents';
 import StaffDataFields from './StaffDataFields';
+
 
 const AddNewStaff = () => {
   const navigation = useNavigation();
@@ -20,6 +20,8 @@ const AddNewStaff = () => {
   const [dataLength, setDataLength] = useState(0);
   const [keyboardVisible, setKeyboardVisible] = useState(false);
 
+
+  // Make sure keyboard stays on screen when editing fields
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
       setKeyboardVisible(true);
@@ -33,6 +35,7 @@ const AddNewStaff = () => {
       keyboardDidHideListener.remove();
     };
   }, []);
+
 
   useFocusEffect(
     React.useCallback(() => {
@@ -55,6 +58,7 @@ const AddNewStaff = () => {
       };
     }, [])
   );
+
 
   const handleRegister = async () => {
     if (!name || !phone || !department || !addressStreet || !addressCity || !addressState || !addressZip || !addressCountry) {
@@ -103,6 +107,7 @@ const AddNewStaff = () => {
     }
   };
 
+  
   return (
     <KeyboardAvoidingView
       style={styles.container}

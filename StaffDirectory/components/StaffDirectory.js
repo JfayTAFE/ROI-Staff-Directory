@@ -29,6 +29,7 @@ const StaffList = ({ staffData, navigation, page, entriesPerPage }) => {
   );
 };
 
+
 const StaffDirectory = ({ navigation }) => {
   const [staffData, setStaffData] = useState([]);
   const [page, setPage] = useState(0);
@@ -71,6 +72,7 @@ const StaffDirectory = ({ navigation }) => {
 
   const totalPages = Math.ceil(staffData.length / entriesPerPage);
 
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -89,6 +91,7 @@ const StaffDirectory = ({ navigation }) => {
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

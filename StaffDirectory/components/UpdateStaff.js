@@ -1,10 +1,10 @@
-// UpdateStaff.js
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, ScrollView, Platform, Keyboard } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { NavigationButton, HeaderTitle } from './HeaderComponents';
 import { StaffDirectoryButton, UpdateStaffButton } from './FooterComponents';
 import StaffDataFields from './StaffDataFields';
+
 
 const UpdateStaff = () => {
   const navigation = useNavigation();
@@ -22,6 +22,8 @@ const UpdateStaff = () => {
   const [message, setMessage] = useState('');
   const [keyboardVisible, setKeyboardVisible] = useState(false);
 
+
+    // Make sure keyboard stays on screen when editing fields
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
       setKeyboardVisible(true);
@@ -35,6 +37,7 @@ const UpdateStaff = () => {
       keyboardDidHideListener.remove();
     };
   }, []);
+
 
   useEffect(() => {
     const fetchStaffData = async () => {
@@ -61,6 +64,8 @@ const UpdateStaff = () => {
 
     fetchStaffData();
   }, [staffId]);
+
+
 
   const handleUpdate = async () => {
     if (!name || !phone || !department || !addressStreet || !addressCity || !addressState || !addressZip || !addressCountry) {
@@ -100,6 +105,8 @@ const UpdateStaff = () => {
     }
   };
 
+
+  
   return (
     <KeyboardAvoidingView
       style={styles.container}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 
+
 const StaffDataFields = ({
   name,
   setName,
@@ -56,6 +57,7 @@ const StaffDataFields = ({
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   form: {

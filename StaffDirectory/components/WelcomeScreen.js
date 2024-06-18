@@ -4,6 +4,7 @@ import { View, StyleSheet, Image, Dimensions, Pressable, Text } from 'react-nati
 const { width } = Dimensions.get('window');
 const logoWidth = width * 0.9; // 90% of the screen width
 
+
 const StaffDirectoryButton = ({ title, onPress }) => {
   return (
     <Pressable style={styles.button} onPress={onPress}>
@@ -11,6 +12,7 @@ const StaffDirectoryButton = ({ title, onPress }) => {
     </Pressable>
   );
 };
+
 
 const WelcomeScreen = ({ navigation }) => {
   return (
@@ -25,6 +27,7 @@ const WelcomeScreen = ({ navigation }) => {
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
