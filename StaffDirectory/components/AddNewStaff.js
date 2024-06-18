@@ -1,6 +1,6 @@
 // AddNewStaff.js
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, KeyboardAvoidingView, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, KeyboardAvoidingView, ScrollView, Platform, Keyboard } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { NavigationButton, HeaderTitle } from './HeaderComponents';
 import { StaffDirectoryButton, RegisterStaffButton } from './FooterComponents';
@@ -18,6 +18,21 @@ const AddNewStaff = () => {
   const [addressCountry, setAddressCountry] = useState('');
   const [message, setMessage] = useState('');
   const [dataLength, setDataLength] = useState(0);
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      setKeyboardVisible(true);
+    });
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboardVisible(false);
+    });
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -89,7 +104,11 @@ const AddNewStaff = () => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
+    >
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.header}>
           <NavigationButton onPress={() => navigation.navigate('Navigation')} />
